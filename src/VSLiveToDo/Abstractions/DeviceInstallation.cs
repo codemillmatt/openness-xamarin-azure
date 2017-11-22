@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace VSLiveToDo.Push
+namespace VSLiveToDo
 {
     public class DeviceInstallation
     {

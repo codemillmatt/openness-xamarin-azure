@@ -11,14 +11,16 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 
 using VSLiveToDo.Services;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Push;
 
 namespace VSLiveToDo.Droid
 {
     [Activity(Label = "VSLiveToDo.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        MobileServiceUser user;
-
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -29,6 +31,10 @@ namespace VSLiveToDo.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+
+            AppCenter.Start("",
+                            typeof(Analytics), typeof(Crashes));
+
 
             LoadApplication(new App());
         }

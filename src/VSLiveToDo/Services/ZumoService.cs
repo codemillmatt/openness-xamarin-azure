@@ -8,6 +8,8 @@ using VSLiveToDo.Models;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 using System.Diagnostics;
+using Microsoft.AppCenter.Analytics;
+using System.Collections.Generic;
 
 namespace VSLiveToDo.Services
 {
@@ -21,7 +23,7 @@ namespace VSLiveToDo.Services
 
         private ZumoService()
         {
-            client = new MobileServiceClient("__YOUR URL HERE__");
+            client = new MobileServiceClient("");
         }
 
         public static ZumoService DefaultInstance
@@ -54,6 +56,7 @@ namespace VSLiveToDo.Services
         {
             try
             {
+                Analytics.TrackEvent("start sync", new Dictionary<string, string> { { "sync", "start" } });
                 Settings.HasSyncStarted = true;
 
                 await Initializer();
@@ -62,8 +65,10 @@ namespace VSLiveToDo.Services
 
                 await table.PullAsync("todo-incremental", table.CreateQuery());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                Analytics.TrackEvent("bad login", new Dictionary<string, string> { { "bad login", "no username" } });
+
                 return false;
             }
             finally
