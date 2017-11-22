@@ -1,11 +1,18 @@
 ﻿using System;
+using MvvmHelpers;
+
 namespace VSLiveToDo.Models
 {
-    public class ToDoItem
+    public class ToDoItem : ObservableObject
     {
-        public string Text { get; set; }
-        public string Notes { get; set; }
-        public bool Complete { get; set; }
+        string text;
+        public string Text { get => text; set => SetProperty(ref text, value); }
+
+        string notes;
+        public string Notes { get => notes; set => SetProperty(ref notes, value); }
+
+        bool complete;
+        public bool Complete { get => complete; set => SetProperty(ref complete, value); }
 
         public string Id { get; set; }
         public byte[] Version { get; set; }

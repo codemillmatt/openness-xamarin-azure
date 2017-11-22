@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using VSLiveToDo.Services;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace VSLiveToDo.ViewModels
 {
@@ -17,12 +18,22 @@ namespace VSLiveToDo.ViewModels
             Title = "To Do Items";
 
             navigation = nav;
-
-            InitialRefreshList();
+            MessagingCenter.Subscribe<ItemUpdatedMessage, ToDoItem>(this, "refresh_list",
+                                                                    (msg, item) =>
+                                                                    {
+                                                                        if (msg.IsNewItem)
+                                                                            Items.Add(item);
+                                                                        else
+                                                                        {
+                                                                            var itemIndex = this.Items.IndexOf(this.Items.Where(i => i.Id == item.Id).First());
+                                                                            this.Items.RemoveAt(itemIndex);
+                                                                            this.Items.Insert(itemIndex, item);
+                                                                        }
+                                                                    });
         }
 
         bool isRefreshing;
-        public bool IsRefreshing
+        public bool Refreshing
         {
             get
             {
@@ -30,7 +41,7 @@ namespace VSLiveToDo.ViewModels
             }
             set
             {
-                SetProperty(ref isRefreshing, value, nameof(IsRefreshing));
+                SetProperty(ref isRefreshing, value);
             }
         }
 
@@ -86,17 +97,17 @@ namespace VSLiveToDo.ViewModels
         public Command<ToDoItem> DeleteCommand => deleteCommand ?? (deleteCommand =
                                                           new Command<ToDoItem>(async (todo) =>
                                                           {
+                                                              if (IsBusy)
+                                                                  return;
+
+                                                              IsBusy = true;
+
                                                               await ZumoService.DefaultInstance.DeleteToDo(todo);
 
                                                               Items.Remove(todo);
+
+                                                              IsBusy = false;
                                                           }));
-
-        async Task InitialRefreshList()
-        {
-            await ExecuteRefreshingCommand();
-
-            MessagingCenter.Subscribe<ToDoDetailPageViewModel>(this, "refresh_list", async (obj) => await ExecuteRefreshingCommand());
-        }
 
         async Task ExecuteRefreshingCommand()
         {
@@ -107,7 +118,7 @@ namespace VSLiveToDo.ViewModels
 
             try
             {
-                IsRefreshing = true;
+                Refreshing = true;
 
                 var success = await ZumoService.DefaultInstance.SyncData();
                 if (!success)
@@ -115,7 +126,7 @@ namespace VSLiveToDo.ViewModels
                     await App.Current.MainPage.DisplayAlert("Error", "Error while getting data", "OK");
                 }
 
-                IsRefreshing = false;
+                Refreshing = false;
 
                 var results = await ZumoService.DefaultInstance.GetAllToDoItems();
 
@@ -124,6 +135,7 @@ namespace VSLiveToDo.ViewModels
             finally
             {
                 IsBusy = false;
+                Refreshing = false;
             }
         }
 

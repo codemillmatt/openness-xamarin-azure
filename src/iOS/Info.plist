@@ -2,12 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDisplayName</key>
-	<string>VSLiveToDo</string>
-	<key>CFBundleName</key>
-	<string>VSLiveToDo</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.microsoft.VSLiveToDo</string>
+	<string>com.codemilltech.ToDo</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -55,5 +51,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleName</key>
+	<string>ToDo</string>
 </dict>
 </plist>

@@ -15,11 +15,14 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ListView ItemsSource="{Binding Items}" 
-                Grid.Row="0"
-                IsRefreshing="{Binding IsRefreshing}"
+                CachingStrategy="RecycleElement"
+                HasUnevenRows="true"
+                Grid.Row="0"                               
                 IsPullToRefreshEnabled="true" 
+                IsRefreshing="{Binding Refreshing, Mode=OneWay}"
                 RefreshCommand="{Binding RefreshCommand}" 
                 Margin="10"
+                Footer=""
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"> 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -30,8 +33,6 @@
                         </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <ListView.Footer>
-                </ListView.Footer>
             </ListView>
             <Button Text="Add New" Grid.Row="1" BackgroundColor="Blue" 
                  TextColor="White" Command="{Binding AddNewCommand}" />

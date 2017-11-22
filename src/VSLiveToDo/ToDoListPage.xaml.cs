@@ -7,11 +7,16 @@ namespace VSLiveToDo
 {
     public partial class ToDoListPage : ContentPage
     {
+        ViewModels.ToDoListPageViewModel vm = null;
+
         public ToDoListPage()
         {
             InitializeComponent();
 
-            BindingContext = new ViewModels.ToDoListPageViewModel(this.Navigation);
+            vm = new ViewModels.ToDoListPageViewModel(Navigation);
+
+            BindingContext = vm;
+            vm.RefreshCommand.Execute(null);
         }
 
         public void Delete_Clicked(object sender, EventArgs e)

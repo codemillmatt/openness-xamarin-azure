@@ -40,12 +40,21 @@ namespace VSLiveToDo.ViewModels
                     return;
                 IsBusy = true;
 
-                if (string.IsNullOrEmpty(Item.Id))
-                    await ZumoService.DefaultInstance.CreateToDo(Item);
-                else
-                    await ZumoService.DefaultInstance.UpdateToDo(Item);
+                var message = new ItemUpdatedMessage();
 
-                MessagingCenter.Send(this, "refresh_list");
+                if (string.IsNullOrEmpty(Item.Id))
+                {
+                    await ZumoService.DefaultInstance.CreateToDo(Item);
+                    message.IsNewItem = true;
+                }
+                else
+                {
+                    await ZumoService.DefaultInstance.UpdateToDo(Item);
+                    message.IsNewItem = false;
+                }
+
+                MessagingCenter.Send(message, "refresh_list", Item);
+                //MessagingCenter.Send(this, "refresh_list");
             }
             finally
             {

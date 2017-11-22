@@ -9,7 +9,6 @@ using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 using System.Diagnostics;
 using Microsoft.AppCenter.Analytics;
-using System.Collections.Generic;
 
 namespace VSLiveToDo.Services
 {
