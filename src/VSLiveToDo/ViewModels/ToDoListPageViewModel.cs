@@ -19,17 +19,17 @@ namespace VSLiveToDo.ViewModels
 
             navigation = nav;
             MessagingCenter.Subscribe<ItemUpdatedMessage, ToDoItem>(this, "refresh_list",
-                                                                    (msg, item) =>
-                                                                    {
-                                                                        if (msg.IsNewItem)
-                                                                            Items.Add(item);
-                                                                        else
-                                                                        {
-                                                                            var itemIndex = this.Items.IndexOf(this.Items.Where(i => i.Id == item.Id).First());
-                                                                            this.Items.RemoveAt(itemIndex);
-                                                                            this.Items.Insert(itemIndex, item);
-                                                                        }
-                                                                    });
+                (msg, item) =>
+                {
+                    if (msg.IsNewItem)
+                        Items.Add(item);
+                    else
+                    {
+                        var itemIndex = this.Items.IndexOf(this.Items.Where(i => i.Id == item.Id).First());
+                        this.Items.RemoveAt(itemIndex);
+                        this.Items.Insert(itemIndex, item);
+                    }
+                });
         }
 
         bool isRefreshing;
@@ -77,37 +77,37 @@ namespace VSLiveToDo.ViewModels
 
         Command addNewCommand;
         public Command AddNewCommand => addNewCommand ?? (addNewCommand =
-                                                          new Command(async () =>
-                                                          {
-                                                              if (IsBusy)
-                                                                  return;
-                                                              IsBusy = true;
+              new Command(async () =>
+              {
+                  if (IsBusy)
+                      return;
+                  IsBusy = true;
 
-                                                              try
-                                                              {
-                                                                  await navigation.PushAsync(new ToDoDetailPage());
-                                                              }
-                                                              finally
-                                                              {
-                                                                  IsBusy = false;
-                                                              }
-                                                          }));
+                  try
+                  {
+                      await navigation.PushAsync(new ToDoDetailPage());
+                  }
+                  finally
+                  {
+                      IsBusy = false;
+                  }
+              }));
 
         Command<ToDoItem> deleteCommand;
         public Command<ToDoItem> DeleteCommand => deleteCommand ?? (deleteCommand =
-                                                          new Command<ToDoItem>(async (todo) =>
-                                                          {
-                                                              if (IsBusy)
-                                                                  return;
+              new Command<ToDoItem>(async (todo) =>
+              {
+                  if (IsBusy)
+                      return;
 
-                                                              IsBusy = true;
+                  IsBusy = true;
 
-                                                              await ZumoService.DefaultInstance.DeleteToDo(todo);
+                  await ZumoService.DefaultInstance.DeleteToDo(todo);
 
-                                                              Items.Remove(todo);
+                  Items.Remove(todo);
 
-                                                              IsBusy = false;
-                                                          }));
+                  IsBusy = false;
+              }));
 
         async Task ExecuteRefreshingCommand()
         {

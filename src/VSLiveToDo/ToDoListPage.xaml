@@ -38,7 +38,9 @@
                  TextColor="White" Command="{Binding AddNewCommand}" />
         </Grid>
     </ContentPage.Content>
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Login" Command="{Binding LoginCommand}" />
     </ContentPage.ToolbarItems>
+
 </ContentPage>

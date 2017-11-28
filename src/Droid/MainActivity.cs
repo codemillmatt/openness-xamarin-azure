@@ -30,10 +30,13 @@ namespace VSLiveToDo.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            Microsoft.AppCenter.Push.Push.PushNotificationReceived += async (sender, e) =>
+            {
+                await App.Current.MainPage.DisplayAlert("Push", e.Message, "OK");
+            };
 
             AppCenter.Start("",
-                            typeof(Analytics), typeof(Crashes));
+                  typeof(Analytics), typeof(Crashes), typeof(Microsoft.AppCenter.Push.Push));
 
 
             LoadApplication(new App());

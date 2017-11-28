@@ -27,7 +27,7 @@ namespace VSLiveToDo.iOS
 
             LoadApplication(new App());
 
-            AppCenter.Start("",
+            AppCenter.Start("__YOUR KEY HERE__",
                             typeof(Analytics), typeof(Crashes));
 
             return base.FinishedLaunching(app, options);

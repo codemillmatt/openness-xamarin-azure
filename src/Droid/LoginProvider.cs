@@ -18,7 +18,8 @@ namespace VSLiveToDo.Droid
         {
             try
             {
-                var user = await client.LoginAsync(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity, MobileServiceAuthenticationProvider.Twitter);
+                var user = await client.LoginAsync(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity,
+                                                   MobileServiceAuthenticationProvider.Twitter);
 
                 return user != null;
             }

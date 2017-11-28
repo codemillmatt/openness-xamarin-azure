@@ -5,9 +5,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using VSLiveToDo.Models;
-using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
-using System.Diagnostics;
 using Microsoft.AppCenter.Analytics;
 
 namespace VSLiveToDo.Services
@@ -22,7 +20,7 @@ namespace VSLiveToDo.Services
 
         private ZumoService()
         {
-            client = new MobileServiceClient("");
+            client = new MobileServiceClient("__YOUR SITE HERE__");
         }
 
         public static ZumoService DefaultInstance

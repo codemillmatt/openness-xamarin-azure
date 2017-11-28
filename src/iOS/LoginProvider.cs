@@ -22,7 +22,8 @@ namespace VSLiveToDo.iOS
         {
             try
             {
-                var user = await client.LoginAsync(UIApplication.SharedApplication.KeyWindow.RootViewController, MobileServiceAuthenticationProvider.Twitter);
+                var user = await client.LoginAsync(UIApplication.SharedApplication.KeyWindow.RootViewController,
+                                                   MobileServiceAuthenticationProvider.Twitter);
 
                 return user != null;
             }
